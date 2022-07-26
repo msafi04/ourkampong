@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+
+{% block title%}Add Items | {% endblock %}
+
+{% block content %}
+    <h1 class="title">Add items to share with your community</h1>
+    <form method="post" action="." enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+
+        <hr>
+        <div class="field">
+            <div class="control">
+                <button class="button is-dark is-capitalize">Submit</button>
+                <a href="{% url 'member/member_admin.html' %}" class="button is-danger">Cancel</a>
+            </div>
+        </div>
+    </form>
+{% endblock %}

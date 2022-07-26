@@ -1,0 +1,34 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Search {% endblock %}
+
+ {% block content %}
+        <div class="columns is-multiline mb-6">
+            <div class="column is-12 has-text-centered mt-6 mb-6">
+                <h2 class="is-size-3">Search</h2>
+                <h3 class="is-size-3">Search term: {{ query }}</h3>
+            </div>
+            {% if items %}
+                {% for item in items %}
+                    <div class="column is-3 product-list-item">
+                        <div class="box">
+                        <figure class="image is-4by3 mb-4">
+                            <img src="{{ item.get_thumbnail }}">
+                        </figure>
+
+                        <h2  class="subtitle">{{ item.title }}</h2>
+                        <h3 class="price is-size-6 mb-5">${{ item.price }}</h2>
+                        <hr>
+                        <a href="{% url 'item/item_detail.html' item.cat_slug item.slug %}" class="button is-dark is-capitalize">View</a>
+
+                        
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="column is-size-3 has-text-centered mt-6 mb-6">
+                    <p>No items with your search term. Please try again...</p>
+                </div>
+            {% endif %}
+        </div>
+ {% endblock %}
