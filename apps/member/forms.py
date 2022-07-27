@@ -17,4 +17,4 @@ class MemberChangeForm(UserChangeForm):
 class ItemForm(ModelForm):
     class Meta:
         model = Item
-        fields = ['category', 'image', 'title', 'description', 'price']
+        fields = ['category', 'image', 'title', 'label', 'description', 'price']

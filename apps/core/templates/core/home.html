@@ -14,10 +14,10 @@
                   <img src="{{ item.get_thumbnail }}">
                </figure>
 
-               <h2  class="subtitle">{{ item.title }}</h2>
+               <h2  class="subtitle">{{ item.title }} <sup><span class="badge rounded-pill bg-primary" style="font-size: 10px">{{ item.label }}</span></sup></h2>
                <h3 class="price is-size-6 mb-5">${{ item.price }}</h2>
                <hr>
-               <a href="{% url 'item/item_detail.html' item.cat_slug item.slug %}" class="button is-dark is-capitalized">View</a>
+               <a href="{% url 'item/item_detail.html' item.cat_slug item.slug %}" class="btn btn-outline-dark is-capitalized">View</a>
 
                
             </div>

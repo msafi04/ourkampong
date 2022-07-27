@@ -34,18 +34,18 @@ class Category(models.Model):
         
 class Item(models.Model):
     LABEL_CHOICES = (
-        ('NW', 'New'),
-        ('OL', 'Old'),
-        ('US', 'Used'),
-        ('UN', 'Unused'),
-        ('DM', 'Damaged')
+        ('New', 'New'),
+        ('Old', 'Old'),
+        ('Used', 'Used'),
+        ('Unused', 'Unused'),
+        ('Damaged', 'Damaged')
     )
     #category = models.ForeignKey(Category, related_name = 'items', on_delete = models.CASCADE)
     category = models.CharField(choices = Category.CATEGORY_CHOICES, max_length = 2, verbose_name = 'Categories')
     cat_slug = models.SlugField(max_length = 255, default = None)
     member = models.ForeignKey(Member, related_name = 'items', on_delete = models.CASCADE)
     title = models.CharField(max_length = 255)
-    label = models.CharField(choices = LABEL_CHOICES, max_length = 2, verbose_name = 'Labels')
+    label = models.CharField(choices = LABEL_CHOICES, max_length = 7, verbose_name = 'Labels')
     slug = models.SlugField(max_length = 255)
     description = models.TextField(blank = True, null = True)
     price = models.DecimalField(max_digits = 6, decimal_places = 2)

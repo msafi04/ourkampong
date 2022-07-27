@@ -17,17 +17,17 @@
 
         <p>{{ item.description }}</p>
         <hr>
-        <a href="#" class="button is-primary is-capitalized">contact vendor</a>
-        <a href="#" class="button is-info is-capitalized">Interested</a>
+        <a href="#" class="btn btn-outline-primary is-capitalized">contact vendor</a>
+        <a href="#" class="btn btn-outline-info is-capitalized">Interested</a>
         <hr>
 
         {% if request.user == item.member %}
-            <a href="{% url 'core/homepage' %}" class="button is-primary is-capitalized">Home</a>
-            <a href="{% url 'member/member_admin.html' %}" class="button is-warning is-capitalized">Admin Page</a>
-            <a href="#" class="button is-info is-capitalized">Edit</a>
-            <a href="{% url 'member/delete_item.html' item.pk %}" class="button is-danger is-capitalized" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+            <a href="{% url 'core/homepage' %}" class="btn btn-outline-primary is-capitalized">Home</a>
+            <a href="{% url 'member/member_admin.html' %}" class="btn btn-outline-warning is-capitalized">Admin Page</a>
+            <a href="#" class="btn btn-outline-info is-capitalized">Edit</a>
+            <a href="{% url 'member/delete_item.html' item.pk %}" class="btn btn-outline-danger is-capitalized" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
         {% else %}
-            <a href="{% url 'core/homepage' %}" class="button is-primary is-capitalize">Home</a>
+            <a href="{% url 'core/homepage' %}" class="btn btn-outline-primary is-capitalized">Home</a>
         {% endif %}
     {% endfor %}
 {% endblock %}
