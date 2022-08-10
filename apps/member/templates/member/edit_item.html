@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+{% block title%}Update/Edit Item | {% endblock %}
+
+{% block content %}
+    <h1 class="title">Update Item Details</h1>
+    {% if user == item.member %}
+        <div class="box">
+            <form method="post" action="." enctype="multipart/form-data">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td>
+                            {{ form.as_table }}
+                        </td>
+                    </tr>
+                </table>
+                <hr>
+                <div class="field">
+                    <div class="control">
+                        <button class="btn btn-outline-dark is-capitalize">Update</button>
+                        <a href="{% url 'member/member_admin.html' %}" class="btn btn-outline-danger">Cancel</a>
+                    </div>
+                </div>
+            </form>
+    {% else %}
+            <div class="box">
+                <h1 class="title">You are not authorized to edit this page!</h1>
+            </div>
+    {% endif %}
+
+    </div>
+{% endblock %}

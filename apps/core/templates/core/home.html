@@ -5,23 +5,40 @@
  {% block content %}
    <div class="columns is-multiline mb-6">
       <div class="column is-12 has-text-centered mt-6 mb-6">
-         <h2 class="is-size-3">Latest Items</h2>
+         <h2 class="is-size-3">Latest Items Shared in your Neighbourhood</h2>
+         {% if user_location %}
+            <h4 class="is-size-6">{{ user_location }}</h4>
+         {% endif %}
       </div>
       {% for item in latest_items %}
-         <div class="column is-3 product-list-item">
-            <div class="box">
-               <figure class="image is-4by3 mb-4">
-                  <img src="{{ item.get_thumbnail }}">
-               </figure>
+        <!-- <a href="{% url 'item/item_detail.html' item.cat_slug item.slug %}" class="item-link" style="text-decoration: none"> -->
+            <div class="column is-3 product-list-item">
+               <div class="box">
+                  <div class="image" onclick="location.href='{% url 'item/item_detail.html' item.cat_slug item.slug %}';">
+                     <figure class="image is-4by3 mb-4">
+                        <img src="{{ item.get_thumbnail }}">
+                     </figure>
+                  </div>
 
-               <h2  class="subtitle">{{ item.title }} <sup><span class="badge rounded-pill bg-primary" style="font-size: 10px">{{ item.label }}</span></sup></h2>
-               <h3 class="price is-size-6 mb-5">${{ item.price }}</h2>
-               <hr>
-               <a href="{% url 'item/item_detail.html' item.cat_slug item.slug %}" class="btn btn-outline-dark is-capitalized">View</a>
-
-               
+                  <h2 class="pull-left" style="text-align:left; font-size: 30px">{{ item.title }} 
+                     <sup><span class="badge rounded-pill bg-primary pull-right" style="position: relative; font-size: 10px; top: -7px; left: -1px">{{ item.label }}</span></sup>
+                  </h2>
+                  {% if item.status %}
+                     <span class="badge rounded-pill bg-success" style="position: relative; font-size: 10px; top: -12px; left: -1px">Available</span>
+                  {% else %}
+                     <span class="badge rounded-pill bg-danger" style="position: relative; font-size: 10px; top: -12px; left: -1px">Not Available</span>
+                  {% endif %}
+                  <h3 class="price is-size-6 mb-5" style="text-align:left">${{ item.price }}</h2>
+                  <hr>
+                  {% if user == item.member %}
+                     <p class="tag is-light">Your Item</p>
+                  {% else %}
+                     <p class="tag is-dark">{{ item.member }}</p>
+                  {% endif %}
+                  <hr>
+                  <!-- <a href="{% url 'item/item_detail.html' item.cat_slug item.slug %}" class="btn btn-outline-dark is-capitalized">View</a> -->
+               </div>
             </div>
-         </div>
       {% endfor %}
    </div>
  {% endblock %}

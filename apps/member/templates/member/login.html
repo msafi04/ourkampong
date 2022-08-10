@@ -15,7 +15,7 @@
 			margin: 0;
 			padding: 0;
 			height: 100%;
-			background: #7abecc !important;
+			background: #707171 !important;
 		}
 		.user_card {
 			width: 350px;
@@ -98,21 +98,26 @@
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-								<input type="password" name="password" placeholder="Password..." class="form-control" >
+							<input type="password" name="password" placeholder="Password..." class="form-control" >
 						</div>
+						<a href="{% url 'reset_password' %}" style="font-size: small; float: right">Forgot Password?</a>
+						<div class="d-flex justify-content-center mt-4 login_container">
+							<input class="btn login_btn" type="submit" value="Login">
+						</div>
+						{% if form.non_field_errors %}
+							<div class="alert alert-danger">
+								{{ form.non_field_errors }}
+							</div>
+						{% endif %}
 
-							<div class="d-flex justify-content-center mt-3 login_container">
-				 				<input class="btn login_btn" type="submit" value="Login">
-				   			</div>
 					</form>
 
 				</div>
 		
-				<div class="mt-4">
+				<div class="mt-2">
 					<div class="d-flex justify-content-center links">
 						Don't have an account? <a href="{% url 'member/register_member.html' %}" class="ml-2">Sign Up</a>
 					</div>
-			
 				</div>
 			</div>
 		</div>

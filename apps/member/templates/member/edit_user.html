@@ -1,0 +1,35 @@
+{% extends 'core/base.html' %}
+
+{% block title%}Edit User Info | {% endblock %}
+
+{% block content %}
+    <h1 class="title">Edit User Details</h1>
+    <div class="box">
+        <form method="post" action=".", enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="field">
+                {{ form.username.label }}: {{ form.username }}
+            </div>
+            <div class="field">
+                {{ form.email.label }}: {{ form.email }}
+            </div>
+            <div class="field">
+                {{ form.radius.label }}: {{ form.radius }}
+            </div>
+            <div class="field">
+                {{ form.postal_code.label }}: {{ form.postal_code }}
+            </div>
+            <div class="field">
+                {{ form.profile_pic.label }}: {{ form.profile_pic }}
+            </div>
+            
+            <hr>
+            <div class="field">
+                <div class="control">
+                    <button class="btn btn-outline-dark is-capitalize">Update</button>
+                    <a href="{% url 'member/member_admin.html' %}" class="btn btn-outline-danger">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

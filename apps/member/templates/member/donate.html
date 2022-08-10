@@ -1,0 +1,10 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Donation | {% endblock %}
+
+{% block content %}
+    <div class="box">
+        <h1 class="title">Thank You <i style="color: green"> {{ user }} </i>for your donation!!</h1>
+        <h2 class="subtitle">{{ user.donate_badge }} <i class="fas fa-hand-holding-heart"></i> Donation Badges</h2>
+    </div>
+{% endblock %}

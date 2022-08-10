@@ -4,17 +4,58 @@
 
 {% block content %}
     <h1 class="title">Add items to share with your community</h1>
-    <form method="post" action="." enctype="multipart/form-data">
-        {% csrf_token %}
-        
-        {{ form.as_p }}
-
-        <hr>
-        <div class="field">
-            <div class="control">
-                <button class="btn btn-outline-dark is-capitalize">Submit</button>
-                <a href="{% url 'member/member_admin.html' %}" class="btn btn-outline-danger">Cancel</a>
+    <div class="box">
+        <form method="post" action="." enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <span class="input-group-text">{{ form.title.label }}: </span>
+                </div>
+                {{ form.title }}
             </div>
-        </div>
-    </form>
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <span class="input-group-text">{{ form.category.label }}: </span>
+                </div>
+                {{ form.category }}
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <span class="input-group-text">{{ form.label.label }}: </span>
+                </div>
+                {{ form.label }}
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <span class="input-group-text">{{ form.price.label }}: $</span>
+                </div>
+                {{ form.price }}
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <span class="input-group-text">{{ form.description.label }}: </span>
+                </div>
+                {{ form.description }}
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <span class="input-group-text">{{ form.status.label }}: </span>
+                </div>
+                {{ form.status }}
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <span class="input-group-text">{{ form.image.label }}: </span>
+                </div>
+                {{ form.image }}
+            </div>
+            <hr>
+            <div class="field">
+                <div class="control">
+                    <button class="btn btn-outline-dark is-capitalize">Submit</button>
+                    <a href="{% url 'member/member_admin.html' %}" class="btn btn-outline-danger">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}

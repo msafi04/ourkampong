@@ -42,10 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #Installed Apps
+    #User Apps
     'apps.core',
     'apps.member',
     'apps.item',
+    'apps.direct',
+
+    #Third party Apps
 ]
 
 MIDDLEWARE = [
@@ -71,7 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                #'apps.item.context_processor.menu_categories',
+                'apps.direct.views.check_messages',
             ],
         },
     },
@@ -137,3 +140,13 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#SMTP Confirguration
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_PORT = "587"
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "apikey"
+EMAIL_HOST_PASSWORD = "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"
+DEFAULT_FROM_EMAIL = "sumaiyah1287@gmail.com"

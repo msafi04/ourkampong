@@ -3,45 +3,93 @@
 {% block title %}Member Admin | {% endblock %}
 
 {% block content %}
-    <div class="box">
-        <h1 class="title">Member Admin: {{ user }}</h1>
-        <h1 class="subtitle">Email: {{ user.email }}</h1>
-        <p class="date-heading">Member Since: {{ user.created_on }}</p>
+    <style>
+        .profile-pic{
+            max-width: 200px;
+            max-height:200px;
+            margin: 0 auto;
+            border-radius: 50%;
+        }
+    </style>
 
-        <hr>
-        <a href="#" class="btn btn-outline-info is-capitalized">Edit</a>
-        <a href="{% url 'logout' %}" class="btn btn-outline-danger is-capitalized">Log Out</a>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="row">
+    <div class="col-md-3">
+        <div class="card card-body">
+            <hr>
+            <h3 style="text-align: center">Profile Picture</h3>
+            <hr>
+            {% if user.profile_pic %}
+                <img class="profile-pic" src="{{ user.profile_pic.url }}">
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-md-9">
+		<div class="card card-body">
+            <h1 class="title" style="margin-bottom: 1px">Username: {{ user }}</h1>
+            <h6>Email: {{ user.email }}</h6>
+            <span class="icon-hover" data-toggle="tooltip" data-placement="top" title="Sharer's Badge">
+                {% for i in num_shares %}
+                    <i class="fas fa-award" style="color: #FFD700"></i>
+                {% endfor %}
+            </span>
+            <span class="icon-hover" data-toggle="tooltip" data-placement="top" title="Donor's Badge">
+                {% for i in num_donates %}
+                    <i class="fas fa-hand-holding-heart" style="color: #a302d0"></i>
+                {% endfor %}
+            </span>
+            <p class="date-heading text-muted" style="margin-bottom: -2px"><small>Member Since: {{ user.created_on }}</small></p>
+            <p class="user-loc text-muted"><small>General Location: {{ user.location }}</small></p>
+
+            <hr>
+            <a href="{% url 'member/edit_user.html' user.pk %}" class="btn btn-outline-info is-capitalized" data-toggle="tooltip" data-placement="top" title="Edit">
+                Edit User Info <i class="fas fa-pencil-alt"></i></a>
+            <a href="{% url 'logout' %}" class="btn btn-outline-danger is-capitalized"
+            data-toggle="tooltip" data-placement="top" title="Log Out">Log Out</a>
+        </div>
+    </div>
     </div>
     <div class="box">
         <h2 class="is-size-3 mb-4">My Items</h2>
 
-        <a href="{% url 'member/add_item.html' %}" class="btn btn-outline-dark is-capitalized mb-6">Add Item</a>
-
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            {% endfor %}
-        {% endif %}
+        <a href="{% url 'member/add_item.html' %}" class="btn btn-outline-dark is-capitalized mb-6"
+            data-toggle="tooltip" data-placement="top" title="Add Item">Add Item</a>
 
         {% if items %}
-            <table class="table is-fullwidth">
+            <table class="table is-fullwidth has-text-centered">
                 <thead>
                     <tr>
                         <th>Title</th>
                         <th>Price</th>
                         <th>Actions</th>
+                        <th>Posted On</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     {% for item in items %}
                         <tr>
-                            <td><a href="{% url 'item/item_detail.html' item.cat_slug item.slug %}">{{ item.title }}</td>
+                            <td><a href="{% url 'item/item_detail.html' item.cat_slug item.slug %}" style="text-decoration: none">{{ item.title }}</td>
                             <td>${{ item.price }}</td>
-                            <td><a href="#">Edit</a></td>
+                            <td><a href="{% url 'member/edit_item.html' item.pk %}" class="btn btn-outline-info is-capitalized" 
+                                style="text-decoration: none; font-size: medium" data-toggle="tooltip" data-placement="top" title="Edit">
+                                <i class="fas fa-pencil-alt"></i></a>
+                            </td>
+                            <td>{{ item.date_added }}</td>
+                            <td>
+                                {% if item.status %}
+                                    <span style="color: green;">Available</span>
+                                {% else %}
+                                    <span style="color: rgb(6, 204, 235);">Not Available</span>
+                                {% endif %}
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -51,3 +99,4 @@
         {% endif %}
     </div>
 {% endblock %}
+

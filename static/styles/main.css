@@ -60,3 +60,25 @@
     animation-name: show-toast;
     animation-duration: 4s;
 }
+
+.badge{
+    position: absolute;
+    right:-20px;
+    top:10px;
+    background:red;
+    text-align: center;
+    border-radius: 30px;
+    color:white;
+    padding:5px;
+    font-size:20px;
+}
+
+img {
+    cursor:pointer
+}
+
+.card-img {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
