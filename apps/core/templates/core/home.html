@@ -28,7 +28,16 @@
                   {% else %}
                      <span class="badge rounded-pill bg-danger" style="position: relative; font-size: 10px; top: -12px; left: -1px">Not Available</span>
                   {% endif %}
-                  <h3 class="price is-size-6 mb-5" style="text-align:left">${{ item.price }}</h2>
+                  <h3 class="likes is-size-6 mb-5" style="text-align:left">
+                     <button type="submit" name="item_id" value="{{ item.id }}" 
+                        class="btn btn{% if item.total_likes != 0 %}-outline{% endif %}-info p-0 border-0 btn-sm"
+                        data-toggle="tooltip" data-placement="top" title="Like">
+                        {% if item.total_likes > 0 %}
+                            {{ item.total_likes }} 
+                        {% endif %}
+                        <i class="fas fa-thumbs-up"></i>
+                    </button>
+                  </h2>
                   <hr>
                   {% if user == item.member %}
                      <p class="tag is-light">Your Item</p>

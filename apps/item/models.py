@@ -11,18 +11,19 @@ from apps.member.models import Member
 
 class Category(models.Model):
     CATEGORY_CHOICES = (
-    ('TY', 'Toys'),
-    ('AP', 'Apparels'),
-    ('BO', 'Books'),
-    ('ST', 'Stationery'),
-    ('FU', 'Furniture'),
-    ('HW', 'Hardwares'),
-    ('SN', 'Snacks'),
-    ('EL', 'Electronics'),
-    ('HI', 'Household_Items'),
-    ('SP', 'Sports'),
-    ('GR', 'Groceries'),
-    ('OT', 'Others')
+        ('AD', 'Advice'),
+        ('TY', 'Toys'),
+        ('AP', 'Apparels'),
+        ('BK', 'Books'),
+        ('ST', 'Stationery'),
+        ('FR', 'Furniture'),
+        ('HW', 'Hardwares'),
+        ('SN', 'Snacks'),
+        ('EL', 'Electronics'),
+        ('HI', 'Household_Items'),
+        ('SP', 'Sports'),
+        ('GR', 'Groceries'),
+        ('OT', 'Others')
     )
 
     title = models.CharField(choices = CATEGORY_CHOICES, max_length = 2, verbose_name = 'Categories')
@@ -41,7 +42,8 @@ class Item(models.Model):
         ('Old', 'Old'),
         ('Used', 'Used'),
         ('Unused', 'Unused'),
-        ('Damaged', 'Damaged')
+        ('Damaged', 'Damaged'),
+        ('Others', 'Others')
     )
     #category = models.ForeignKey(Category, related_name = 'items', on_delete = models.CASCADE)
     category = models.CharField(choices = Category.CATEGORY_CHOICES, max_length = 2, verbose_name = 'Categories')

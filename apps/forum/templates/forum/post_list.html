@@ -1,0 +1,109 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Community Forum | {% endblock %}
+
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div class="container">
+        <div class="row mt-5 pt-3">
+            <!-- Post List current user dashboard -->
+            <div class="col-md-4" style="position: absolute; right: 0;">
+                <div class="card my-2 shadow">
+                    <div style="background-color: rgb(194, 149, 235); height: 45px">
+                        <h3 class="title" style="text-align: center; margin-bottom: -7px;">My Posts</h3>
+                        <hr>
+                    </div>
+                    <div class="card-body">
+                        {% if request.user.is_authenticated %}
+                            <a href="{% url 'post_new' %}" style="float: inline-end; margin-top: -20px">
+                                <span class="material-icons" style="vertical-align: middle">post_add</span>
+                                    Create Post
+                            </a>
+                            <ul style="list-style: disc; margin-left: 15px; margin-top: 10px">
+                                {% if my_posts %}
+                                    {% for post in my_posts %}
+                                        <li>
+                                            <span><a href="{% url 'post_detail' post.pk %}">{{ post.title | capfirst }}</a>
+                                                <small class="text-muted" style="font-size: 10px">{{ post.date_added | date:"M d, Y"}} {{ post.date_added | time:"H:i"}}</small>
+                                            </span>
+                                        </li>
+                                            <small>Comments: {{ post.comment_count }}, </small>
+                                            <small>Likes: {{ post.comment_count }}</small>
+                                    {% endfor %}
+                                {% else %}
+                                        <p>You have not posted any posts yet.</p>
+                                {% endif %}
+                            </ul>
+                        {% else %}
+                            <p style="text-align: center">You are not logged in user!!</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!-- Posts Listing -->
+            <div class="col-md-8">
+                {% for post in page_posts.object_list %}
+                    <div class="card shadow my-2">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <img src="{{ user.profile_pic.url }}" width="20" height="20" style="border-radius:50%" class="d-inline-block align-top" alt="">
+                                    <strong>{{ post.member }} </strong>
+                                    <small style="font-size: 12px">{{ post.date_added | date:"M d, Y"}} {{ post.date_added | time:"H:i"}}</small>
+                                    <small><a href="{% url 'post_detail' post.pk %}">Comments: {{ post.comment_count }}</a>, </small>
+                                    <small>
+                                        <a href="{% url 'post_detail' post.pk %}">Likes: {{ post.comment_count }}</a>
+                                    </small>
+                                    <hr>
+                                    <a class="h3" href="{% url 'post_detail' post.pk %}">{{ post.title | capfirst }}</a>
+                                    <p class="text-justify my-3">
+                                        {{ post.content | truncatechars:100 | safe }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- Pagination -->
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-md-4 offset-md-2">
+                <nav aria-label="...">
+                    <ul class="pagination justify-content-center">
+                      <li class="page-item">
+                        {% if page_posts.has_previous %}
+                            <a class="page-link" href="{% url 'post_list' %}?page={{ page_posts.previous_page_number }}">Previous</a>
+                        {% endif %}
+                      </li>
+                      {% for num_page in page_posts.paginator.page_range %}
+                        {% if page_posts.number == num_page %}
+                            <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="{% url 'post_list' %}?page={{ num_page }}">{{ num_page }}<span class="sr-only">(current)</span></a>
+                            </li>
+                        {% else %}
+                        <li class="page-item" aria-current="page">
+                            <a class="page-link" href="{% url 'post_list' %}?page={{ num_page }}">{{ num_page }}<span class="sr-only">(current)</span></a>
+                        </li>
+                        {% endif %}
+                      {% endfor %}
+                      <li class="page-item">
+                        {% if page_posts.has_next %}
+                            <a class="page-link" href="{% url 'post_list' %}?page={{ page_posts.next_page_number }}">Next</a>
+                        {% endif %}
+                      </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}

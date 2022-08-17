@@ -10,21 +10,51 @@
             </div>
             {% if items %}
                 {% for item in items %}
-                    <div class="column is-3 product-list-item">
+                    <div class="column is-2 product-list-item">
                         <div class="box">
-                        <figure class="image is-4by3 mb-4">
-                            <img src="{{ item.get_thumbnail }}">
-                        </figure>
+                            <div class="image" onclick="location.href='{% url 'item/item_detail.html' item.cat_slug item.slug %}';">
+                                <figure class="image is-4by3 mb-4">
+                                   <img src="{{ item.get_thumbnail }}">
+                                </figure>
+                            </div>
 
-                        <h2  class="subtitle">{{ item.title }}</h2>
-                        <h3 class="price is-size-6 mb-5">${{ item.price }}</h2>
-                        <hr>
-                        <a href="{% url 'item/item_detail.html' item.cat_slug item.slug %}" class="button is-dark is-capitalize">View</a>
-
-                        
+                            <h2  class="subtitle">{{ item.title }}</h2>
+                            <h3 class="likes is-size-6 mb-5" style="text-align:left">
+                                <button type="submit" name="item_id" value="{{ item.id }}" 
+                                class="btn btn{% if item.total_likes != 0 %}-outline{% endif %}-info p-0 border-0 btn-sm"
+                                data-toggle="tooltip" data-placement="top" title="Like">
+                                {% if item.total_likes > 0 %}
+                                    {{ item.total_likes }} 
+                                {% endif %}
+                                <i class="fas fa-thumbs-up"></i>
+                            </button>
+                            <hr>
+                            {% if user == item.member %}
+                                <p class="tag is-light">Your Item</p>
+                            {% else %}
+                                <p class="tag is-dark">{{ item.member }}</p>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}
+            {% endif %}
+            {% if posts %}
+                <div class="col-md-8">
+                    {% for post in posts %}
+                        <div class="card shadow my-2">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a class="h3" href="{% url 'post_detail' post.pk %}">{{ post.title | capfirst }}</a>
+                                        <p class="text-justify my-3">
+                                            {{ post.content | truncatechars:100 | safe }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             {% else %}
                 <div class="column is-size-3 has-text-centered mt-6 mb-6">
                     <p>No items with your search term. Please try again...</p>

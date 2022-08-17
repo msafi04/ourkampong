@@ -43,9 +43,16 @@
     </style>
 
     <body>
-        <nav class="navbar navbar-expand-lg is-dark">
+        <nav class="navbar navbar-expand-lg is-dark navbar-static-top">
             <div class="navbar-brand">
                 <a href="/" class="navbar-item" style="text-decoration: none;"><strong>Our Kampong - One Community</strong></a>
+
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="main-navbar">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+
             </div>
         
             <div class="navbar-menu" id="main-navbar">
@@ -58,9 +65,9 @@
                         <i class="material-icons">playlist_add_check_circle</i>
                         Guidelines
                     </a>
-                    <a href="#" class="navbar-item" style="text-decoration: none">
+                    <a href="{% url 'post_list' %}" class="navbar-item" style="text-decoration: none">
                         <i class="material-icons">forum</i>
-                        Forum
+                        Community Forum
                     </a>
                     <a href="{% url 'core/contact' %}" class="navbar-item" style="text-decoration: none">
                         <i class="material-icons">contact_page</i>
@@ -81,21 +88,21 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item" href="{% url 'member/member_admin.html' %}">
-                                        <span class="material-icons">settings</span>
+                                        <span class="material-icons" style="vertical-align: middle">settings</span>
                                         Account Settings
                                     </a>
                                     <a class="dropdown-item" href="{% url 'inbox' %}">
-                                        <i class="material-icons">inbox</i>
-                                        Inbox
+                                        <i class="material-icons" style="vertical-align: middle">inbox</i>
+                                        Messages
                                         {% if directs_count %}
-                                            <span class="notify-badge">
+                                            <span class="notify-badge" style="vertical-align: middle">
                                                 {{ directs_count }}        
                                             </span>
                                         {% endif %}
                                     </a>
                                     <hr>
                                     <a class="dropdown-item" href="{% url 'logout' %}">
-                                        <span class="material-icons">logout</span>
+                                        <span class="material-icons" style="vertical-align: middle">logout</span>
                                             Log Out
                                     </a>
                                 </div>
@@ -110,12 +117,12 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <a class="dropdown-item" href="{% url 'member/register_member.html' %}">
-                                        <span class="material-icons">app_registration</span>
+                                        <span class="material-icons" style="vertical-align: middle">app_registration</span>
                                         Register
                                     </a>
                                     <hr>
                                     <a class="dropdown-item" href="{% url 'login' %}">
-                                        <span class="material-icons">login</span>
+                                        <span class="material-icons" style="vertical-align: middle">login</span>
                                             Log In
                                     </a>
                                 </div>

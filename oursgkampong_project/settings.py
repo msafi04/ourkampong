@@ -47,8 +47,10 @@ INSTALLED_APPS = [
     'apps.member',
     'apps.item',
     'apps.direct',
+    'apps.forum',
 
     #Third party Apps
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
