@@ -48,59 +48,61 @@
             </aside>
             <br>
         </div>
-    
         <div class="column">
+            {% if directs %}
+                <div style="overflow-y: scroll; height: 500px">
 
-            <div style="overflow-y: scroll; height: 500px">
-
-                {% for direct in directs %}
-                    <div class="box">
-                        <article class="media">
-                            <div class="media-left"></div>
-                            <div class="media-content">
-                                <div class="content">
-                                    <p>
-                                        <strong>{{ direct.sender.username }}</strong> <small>{{ direct.sender.email }}</small> 
-                                        <small class="text-muted" style="font-size: 10px">{{ direct.date|date:'N d G:i'}}</small>
-                                    </p>
-                                    {% if '<a href' in direct.body %}
-                                        {{ direct.body | safe }}
-                                    {% else %}
-                                        {{ direct.body }}
-                                    {% endif %}
+                    {% for direct in directs %}
+                        <div class="box">
+                            <article class="media">
+                                <div class="media-left"></div>
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            <img src="{{ direct.sender.profile_pic.url }}" width="20" height="20" style="border-radius: 50%" alt="Placeholder image">
+                                            <strong>{{ direct.sender.username }}</strong> <small>{{ direct.sender.email }}</small> 
+                                            <small class="text-muted" style="font-size: 10px">{{ direct.date|date:'N d G:i'}}</small>
+                                        </p>
+                                        <p style="white-space: pre-line; margin-top: -50px;">
+                                            {% if 'a href=' in direct.body %}
+                                                {{ direct.body | safe }}
+                                            {% else %}
+                                                {{ direct.body | safe }}
+                                            {% endif %}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </article>
-                    </div>
-                {% endfor %}
-            </div>
-
-            <form role="form" method="POST" action="{% url 'send_direct' %}">
-                {% csrf_token %}
-                <article class="media">
-                    <figure class="media-left">
-                        <p class="image is-64x64">
-                            <img src="{{ user.profile_pic.url }}" style="border-radius: 50%">
-                        </p>
-                    </figure>
-                    <div class="media-content">
-                        <input type="hidden" name="to_user" value="{{ active_user }}">
-                        <div class="field">
-                            <p class="control">
-                                <textarea class="textarea" id="textsend" onkeyup="success()" name="body" placeholder="Add a comment..."></textarea>
-                            </p>
+                            </article>
                         </div>
-                        <nav class="level">
-                            <div class="level-left">
-                                <div class="level-item">
-                                    <button type="submit" id="button" name="action" class="btn btn-outline-info" disabled>Send</button>
-                                </div>
-                            </div>
-                        </nav>
-                    </div>
-                </article>
-            </form>
+                    {% endfor %}
+                </div>
 
+                <form role="form" method="POST" action="{% url 'send_direct' %}">
+                    {% csrf_token %}
+                    <article class="media">
+                        <figure class="media-left">
+                            <p class="image is-64x64">
+                                <img src="{{ user.profile_pic.url }}" style="border-radius: 50%">
+                            </p>
+                        </figure>
+                        <div class="media-content">
+                            <input type="hidden" name="to_user" value="{{ active_user }}">
+                            <div class="field">
+                                <p class="control">
+                                    <textarea class="textarea" id="textsend" onkeyup="success()" name="body" placeholder="Add a comment..."></textarea>
+                                </p>
+                            </div>
+                            <nav class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <button type="submit" id="button" name="action" class="btn btn-outline-info" disabled>Send</button>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </article>
+                </form>
+            {% endif %}
         </div>
     </div>
 

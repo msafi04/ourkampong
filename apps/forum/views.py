@@ -67,7 +67,7 @@ def post_detail_view(request, pk):
     return render(request, 'forum/post_detail.html', {'post': post, 'form': form})
 
 def post_likes_view(request, pk):
-    post = get_object_or_404(Post, id = request.POST.get('post_id'))
+    post = get_object_or_404(Post, id = pk)
     if request.user.is_authenticated:
         if request.user in post.post_likes.all():
             post.post_likes.remove(request.user)

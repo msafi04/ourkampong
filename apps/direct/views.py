@@ -76,7 +76,7 @@ def send_directs(request):
 @login_required
 def new_message(request, username, category_slug, item_slug):
     if request.user != username:
-        #print(request.META.get('HTTP_REFERER')) #Link to the previous page visited
+        print(request.META.get('HTTP_REFERER')) #Link to the previous page visited
         from_user = request.user
         to_user = Member.objects.get(username = username)
         current_item = get_list_or_404(Item, cat_slug =  category_slug, slug = item_slug)

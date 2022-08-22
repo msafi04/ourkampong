@@ -32,7 +32,7 @@ def search_view(request):
     return render(request, 'item/search.html', {'items': items, 'posts': posts, 'query': query})
 
 def likes_view(request, category_slug, item_slug):
-    item = get_object_or_404(Item, id = request.POST.get('item_id'))
+    item = get_object_or_404(Item, slug = item_slug)
     if request.user.is_authenticated:
         if request.user in item.likes.all():
             item.likes.remove(request.user)

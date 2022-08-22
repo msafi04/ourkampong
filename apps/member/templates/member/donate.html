@@ -4,7 +4,9 @@
 
 {% block content %}
     <div class="box">
-        <h1 class="title">Thank You <i style="color: green"> {{ user }} </i>for your donation!!</h1>
-        <h2 class="subtitle">{{ user.donate_badge }} <i class="fas fa-hand-holding-heart"></i> Donation Badges</h2>
+        <h1 class="subtitle" style="white-space: pre-line;">Thank You <i style="color: green"> {{ user }} </i>for your consideration.
+            Please proceed to Donate!</h1>
+        <h2 class="subtitle">{{ user.donate_badge }} <i class="fas fa-hand-holding-heart"></i> Donation Badges Earned</h2>
+        <a href="{% url 'donate_badges' %}" class="btn btn-outline-success btn-sm">Donate</a>
     </div>
 {% endblock %}

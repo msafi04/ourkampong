@@ -16,7 +16,7 @@
         {% for message in messages %}
             <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                 {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
             </div>
         {% endfor %}
     {% endif %}
@@ -26,27 +26,59 @@
             <hr>
             <h3 style="text-align: center">Profile Picture</h3>
             <hr>
-            {% if user.profile_pic %}
+            {% if member.profile_pic %}
                 <img class="profile-pic" src="{{ user.profile_pic.url }}">
             {% endif %}
         </div>
     </div>
     <div class="col-md-9">
 		<div class="card card-body">
-            <h1 class="title" style="margin-bottom: 1px">Username: {{ user }}</h1>
-            <h6>Email: {{ user.email }}</h6>
-            <span class="icon-hover" data-toggle="tooltip" data-placement="top" title="Sharer's Badge">
-                {% for i in num_shares %}
-                    <i class="fas fa-award" style="color: #FFD700"></i>
-                {% endfor %}
-            </span>
-            <span class="icon-hover" data-toggle="tooltip" data-placement="top" title="Donor's Badge">
-                {% for i in num_donates %}
-                    <i class="fas fa-hand-holding-heart" style="color: #a302d0"></i>
-                {% endfor %}
-            </span>
-            <p class="date-heading text-muted" style="margin-bottom: -2px"><small>Member Since: {{ user.created_on }}</small></p>
-            <p class="user-loc text-muted"><small>General Location: {{ user.location }}</small></p>
+            <h1 class="title" style="margin-bottom: 1px">Username: {{ member }}</h1>
+            <h6>Email: {{ member.email }}</h6>
+            <nav class="level is-mobile">
+                <div class="level-item has-text-centered">
+                    <div>
+                      <p class="heading">Sharer's Badge</p>
+                      <p class="subtitle" style="inline-size: 120px;">
+                        {% if num_shares %}
+                            {% for i in num_shares %}
+                                <i class="fas fa-award" style="color: #FFD700"></i>
+                            {% endfor %}
+                        {% else %}
+                            <span>-</span>
+                        {% endif %}
+                      </p>
+                    </div>
+                </div>
+                <div class="level-item has-text-centered">
+                    <div>
+                        <p class="heading">Donor's Badge</p>
+                        <p class="subtitle" style="inline-size: 120px;">
+                            {% if num_donates %}
+                                {% for i in num_donates %}
+                                    <i class="fas fa-hand-holding-heart" style="color: #a302d0"></i>
+                                {% endfor %}
+                            {% else %}
+                                <span>-</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="level-item has-text-centered">
+                    <div>
+                    <p class="heading">Items Shared</p>
+                    <p class="title">{{ member.share_badge }}</p>
+                    </div>
+                </div>
+                <div class="level-item has-text-centered">
+                    <div>
+                    <p class="heading">Forum Posts</p>
+                    <p class="title">{{ num_posts }}</p>
+                    </div>
+                </div>
+            </nav>
+            <em class="date-heading text-muted" style="margin-bottom: -2px"><small>Member Since: {{ member.created_on | date:"M d, Y"}} {{ member.created_on | time:"H:i"}}</small></em>
+            <em class="user-loc text-muted"><small>General Location: {{ member.location }}</small></em>
 
             <hr>
             <a href="{% url 'member/edit_user.html' user.pk %}" class="btn btn-outline-info is-capitalized" data-toggle="tooltip" data-placement="top" title="Edit">
@@ -60,7 +92,12 @@
         <h2 class="is-size-3 mb-4">My Items</h2>
 
         <a href="{% url 'member/add_item.html' %}" class="btn btn-outline-dark is-capitalized mb-6"
-            data-toggle="tooltip" data-placement="top" title="Add Item">Add Item</a>
+            data-toggle="tooltip" data-placement="top" title="Add Item">
+            <span class="material-icons align-top">
+                add_circle
+            </span>
+            Add Item
+        </a>
 
         {% if items %}
             <table class="table is-fullwidth has-text-centered">
@@ -78,7 +115,7 @@
                         <tr>
                             <td><a href="{% url 'item/item_detail.html' item.cat_slug item.slug %}" style="text-decoration: none">{{ item.title }}</td>
                             <td>${{ item.price }}</td>
-                            <td><a href="{% url 'member/edit_item.html' item.pk %}" class="btn btn-outline-info is-capitalized" 
+                            <td><a href="{% url 'member/edit_item.html' item.pk %}" 
                                 style="text-decoration: none; font-size: medium" data-toggle="tooltip" data-placement="top" title="Edit">
                                 <i class="fas fa-pencil-alt"></i></a>
                             </td>

@@ -13,7 +13,7 @@
             {% endfor %}
         {% endif %}
         {% for item in item_detail %}
-            <h3 class="title">{{ item.title }}</h3>
+            <h3 class="title">{{ item.title | capfirst}}</h3>
             <hr>
             <div class="box row">
                 <div class="col-md-6">
@@ -24,7 +24,7 @@
                     {% endif %}
                 </div>
                 <div class="col-md-6">
-                    <h3 class="title" style="text-align:left; font-size: 25px">{{ item.title }} 
+                    <h3 class="title" style="text-align:left; font-size: 25px">{{ item.title | capfirst}} 
                         <sup><span class="badge rounded-pill bg-primary pull-right" style="position: relative; font-size: 10px; top: -7px; left: -1px">{{ item.label }}</span></sup>
                     </h3>
                     {% if item.status %}
@@ -36,36 +36,53 @@
                             Not Available
                         </span>
                     {% endif %}
-                    <h1 class="subtitle">${{ item.price }}</h1>
+                    <br/>
+                    <a href="{% url 'like_item' item.cat_slug item.slug %}" class="like"><i class="material-icons has-text-danger" style="margin-left: 3px;">{% if item.total_likes > 0 %}favorite{% else %}favorite_border{% endif %}</i></a>
+                    {% if item.total_likes > 0 %}
+                        <p style="font-size: 11px; text-align: left; margin-top: -4px;">
+                            {{ item.total_likes }} Like{{ item.total_likes | pluralize:"s"}}
+                        </p>
+                    {% else %}
+                        <p style="font-size: 11px; text-align: left; margin-top: -4px; margin-left: 5px">
+                            Like
+                        </p>
+                    {% endif %}
+                    <!-- <form action="{% url 'like_item' item.cat_slug item.slug %}" method="POST">
+                        {% csrf_token %}
+                        <div class="media-left">
+                            <button type="submit" name="item_id" value="{{ item.id }}" 
+                                class="btn btn{% if total_likes != 0 %}-outline{% endif %}-info p-1 border-0"
+                                data-toggle="tooltip" data-placement="top" title="Like">
+                                <i class="fas fa-thumbs-up has-text-danger" style="margin-left: 5px;"></i>
+                            </button>
+                            <p style="font-size: 11px; text-align: left; margin-top: -5px;">
+                                {% if item.total_likes > 0 %}
+                                   {{ item.total_likes }} Like{{ item.total_likes | pluralize:"s"}}
+                                {% else %}
+                                   Like
+                                {% endif %}
+                            </p>
+                        </div>
+                    </form> -->
 
                     <p class="mb-2">
-                        <span class="tag is-dark" style="font-size: 15px">{{ item.member }}</span>
+                        <span class="tag is-dark" style="font-size: 15px">
+                            <img src="{{ item.member.profile_pic.url }}" width="20" height="20" style="border-radius:50%;" class="d-inline-block align-middle" alt=""> 
+                            {{ item.member | capfirst }}
+                        </span>
                         {% if request.user != item.member %}
                             <a href="{% url 'new_message' item.member item.cat_slug item.slug %}" class="dm-user" style=" color: black">
                                 <i class='fas fa-comments' style='font-size: 28px;'></i>
                             </a>
                         {% endif %}
                     </p>
-                    <p class="mb-5 text-muted" style="font-size: small; margin-bottom: 0px">Listed On: {{ item.date_added }}</p>
+                    <p class="mb-5 text-muted" style="font-size: small; margin-bottom: 0px">Listed On: {{ item.date_added | date:"M d, Y"}} {{ item.date_added | time:"H:i"}}</p>
                     <hr>
                     <strong>Description: </strong>
-                    <div class="desc" >{{ item.description }}</div>
+                    <div class="desc" style="white-space: pre-line;">{{ item.description }}</div>
                     <hr>
                 </div>
             </div>
-            <form action="{% url 'like_item' item.cat_slug item.slug %}" method="POST">
-                {% csrf_token %}
-                <button type="submit" name="item_id" value="{{ item.id }}" 
-                class="btn btn{% if total_likes != 0 %}-outline{% endif %}-info p-1 border-0 btn-sm"
-                data-toggle="tooltip" data-placement="top" title="Like">
-                    {% if total_likes > 0 %}
-                        {{ total_likes }} 
-                    {% endif %}
-                    <i class="fas fa-thumbs-up"></i>
-                </button>
-            </form>
-
-            <hr>
             <a href="#" class="btn btn-outline-info is-capitalized">Interested</a>
             <a href="#" class="btn btn-outline-primary is-capitalized">Thank You <i class="fas fa-handshake"></i></a>
             <a href="{% url 'member/donate.html' %}" class="btn btn-outline-info is-capitalized">Donate <i class="fas fa-donate"></i></a>
@@ -79,7 +96,7 @@
                     <i class="far fa-trash-alt"></i>
                 </a>
             {% else %}
-                <a href="{% url 'core/homepage' %}" class="btn btn-outline-primary is-capitalized">Home</a>
+            <a href="{% url 'core/homepage' %}" class="btn btn-outline-primary is-capitalized"><i class="fas fa-home"></i></a>
             {% endif %}
         {% endfor %}
     </div>

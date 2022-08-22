@@ -1,13 +1,14 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
-from .views import (member_admin, 
+from .views import (donate_badges, member_admin, 
                     register_member, 
                     add_item, 
                     delete_item, 
                     edit_item, 
                     edit_user, 
-                    donation_view
+                    donation_view,
+                    donate_badges
                 )
 from .forms import ResetPasswordForm, NewPasswordForm
 
@@ -19,7 +20,8 @@ urlpatterns = [
     path('edit-item/<int:pk>/', edit_item, name = 'member/edit_item.html'),
     path('edit-user/<int:pk>/', edit_user, name = 'member/edit_user.html'),
     path('donate/', donation_view, name = 'member/donate.html'),
-    
+    path('donate/badges', donate_badges, name = 'donate_badges'),
+
     path('logout/', auth_views.LogoutView.as_view(), name = 'logout'),
     path('login/', auth_views.LoginView.as_view(template_name = 'member/login.html'), name = 'login'),
 

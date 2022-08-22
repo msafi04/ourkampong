@@ -7,7 +7,7 @@
         {% for message in messages %}
             <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                 {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
             </div>
         {% endfor %}
     {% endif %}
@@ -34,8 +34,15 @@
                                                 <small class="text-muted" style="font-size: 10px">{{ post.date_added | date:"M d, Y"}} {{ post.date_added | time:"H:i"}}</small>
                                             </span>
                                         </li>
-                                            <small>Comments: {{ post.comment_count }}, </small>
-                                            <small>Likes: {{ post.comment_count }}</small>
+                                        <small>
+                                            <i class="material-icons has-text-info">
+                                                    comment
+                                            </i> {{ post.comment_count }}
+                                        </small>
+                                            <small>
+                                                <i class="material-icons has-text-danger">
+                                                    favorite
+                                            </i> {{ post.total_post_likes }}</small>
                                     {% endfor %}
                                 {% else %}
                                         <p>You have not posted any posts yet.</p>
@@ -54,12 +61,16 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-8">
-                                    <img src="{{ user.profile_pic.url }}" width="20" height="20" style="border-radius:50%" class="d-inline-block align-top" alt="">
+                                    <img src="{{ post.member.profile_pic.url }}" width="20" height="20" style="border-radius:50%;" class="d-inline-block align-middle" alt="">
                                     <strong>{{ post.member }} </strong>
                                     <small style="font-size: 12px">{{ post.date_added | date:"M d, Y"}} {{ post.date_added | time:"H:i"}}</small>
-                                    <small><a href="{% url 'post_detail' post.pk %}">Comments: {{ post.comment_count }}</a>, </small>
+                                    <small><a href="{% url 'post_detail' post.pk %}">
+                                        <i class="material-icons has-text-info">
+                                            comment
+                                        </i> {{ post.comment_count }}</a>, 
+                                    </small>
                                     <small>
-                                        <a href="{% url 'post_detail' post.pk %}">Likes: {{ post.comment_count }}</a>
+                                        <a href="{% url 'post_detail' post.pk %}"><i class="material-icons has-text-danger">favorite</i> {{ post.total_post_likes }}</a>
                                     </small>
                                     <hr>
                                     <a class="h3" href="{% url 'post_detail' post.pk %}">{{ post.title | capfirst }}</a>
@@ -75,35 +86,37 @@
         </div>
     </div>
     <!-- Pagination -->
-    <div class="container">
-        <div class="row my-5">
-            <div class="col-md-4 offset-md-2">
-                <nav aria-label="...">
-                    <ul class="pagination justify-content-center">
-                      <li class="page-item">
-                        {% if page_posts.has_previous %}
-                            <a class="page-link" href="{% url 'post_list' %}?page={{ page_posts.previous_page_number }}">Previous</a>
-                        {% endif %}
-                      </li>
-                      {% for num_page in page_posts.paginator.page_range %}
-                        {% if page_posts.number == num_page %}
-                            <li class="page-item active" aria-current="page">
+    {% if page_posts.paginator.count > 1 %}
+        <div class="container">
+            <div class="row my-5">
+                <div class="col-md-4 offset-md-2">
+                    <nav aria-label="...">
+                        <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            {% if page_posts.has_previous %}
+                                <a class="page-link" href="{% url 'post_list' %}?page={{ page_posts.previous_page_number }}">Previous</a>
+                            {% endif %}
+                        </li>
+                        {% for num_page in page_posts.paginator.page_range %}
+                            {% if page_posts.number == num_page %}
+                                <li class="page-item active" aria-current="page">
+                                    <a class="page-link" href="{% url 'post_list' %}?page={{ num_page }}">{{ num_page }}<span class="sr-only">(current)</span></a>
+                                </li>
+                            {% else %}
+                            <li class="page-item" aria-current="page">
                                 <a class="page-link" href="{% url 'post_list' %}?page={{ num_page }}">{{ num_page }}<span class="sr-only">(current)</span></a>
                             </li>
-                        {% else %}
-                        <li class="page-item" aria-current="page">
-                            <a class="page-link" href="{% url 'post_list' %}?page={{ num_page }}">{{ num_page }}<span class="sr-only">(current)</span></a>
+                            {% endif %}
+                        {% endfor %}
+                        <li class="page-item">
+                            {% if page_posts.has_next %}
+                                <a class="page-link" href="{% url 'post_list' %}?page={{ page_posts.next_page_number }}">Next</a>
+                            {% endif %}
                         </li>
-                        {% endif %}
-                      {% endfor %}
-                      <li class="page-item">
-                        {% if page_posts.has_next %}
-                            <a class="page-link" href="{% url 'post_list' %}?page={{ page_posts.next_page_number }}">Next</a>
-                        {% endif %}
-                      </li>
-                    </ul>
-                </nav>
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock %}

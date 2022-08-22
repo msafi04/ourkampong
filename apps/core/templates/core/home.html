@@ -20,7 +20,7 @@
                      </figure>
                   </div>
 
-                  <h2 class="pull-left" style="text-align:left; font-size: 30px">{{ item.title }} 
+                  <h2 class="pull-left" style="text-align:left; font-size: 30px; white-space: nowrap;">{{ item.title | capfirst }} 
                      <sup><span class="badge rounded-pill bg-primary pull-right" style="position: relative; font-size: 10px; top: -7px; left: -1px">{{ item.label }}</span></sup>
                   </h2>
                   {% if item.status %}
@@ -28,23 +28,29 @@
                   {% else %}
                      <span class="badge rounded-pill bg-danger" style="position: relative; font-size: 10px; top: -12px; left: -1px">Not Available</span>
                   {% endif %}
-                  <h3 class="likes is-size-6 mb-5" style="text-align:left">
-                     <button type="submit" name="item_id" value="{{ item.id }}" 
+                  <div class="media-left">
+                    <!-- <button type="submit" name="item_id" value="{{ item.id }}" 
                         class="btn btn{% if item.total_likes != 0 %}-outline{% endif %}-info p-0 border-0 btn-sm"
                         data-toggle="tooltip" data-placement="top" title="Like">
-                        {% if item.total_likes > 0 %}
-                            {{ item.total_likes }} 
-                        {% endif %}
-                        <i class="fas fa-thumbs-up"></i>
+                        <i class="fas fa-thumbs-up has-text-danger" style="margin-left: 9px;"></i>
                     </button>
-                  </h2>
-                  <hr>
+                  -->
+                    <a href="#" class="like"><i class="material-icons has-text-danger" style="margin-left: 3px;">{% if item.total_likes > 0 %}favorite{% else %}favorite_border{% endif %}</i></a>
+                     {% if item.total_likes > 0 %}
+                        <p style="font-size: 11px; text-align: left; margin-top: -4px;">
+                           {{ item.total_likes }} Like{{ item.total_likes | pluralize:"s"}}
+                        </p>
+                     {% else %}
+                        <p style="font-size: 11px; text-align: left; margin-top: -4px; margin-left: 5px">
+                           Like
+                        </p>
+                     {% endif %}
+                  </div>
                   {% if user == item.member %}
                      <p class="tag is-light">Your Item</p>
                   {% else %}
                      <p class="tag is-dark">{{ item.member }}</p>
                   {% endif %}
-                  <hr>
                   <!-- <a href="{% url 'item/item_detail.html' item.cat_slug item.slug %}" class="btn btn-outline-dark is-capitalized">View</a> -->
                </div>
             </div>

@@ -16,6 +16,8 @@ from .forms import MemberCreationForm, MemberChangeForm
 from .models import Member
 
 from apps.item.models import Item
+from apps.forum.models import Post
+
 from .forms import ItemForm, ItemImageForm
 
 
@@ -42,6 +44,7 @@ def register_member(request):
 def member_admin(request):
     member = request.user
     items = member.items.all()
+    posts_num = member.posts.all().count()
 
     postal_code_map = {
         '01': "Raffles Place, Cecil, Marina, People's Park", '02': "Raffles Place, Cecil, Marina, People's Park", '03': "Raffles Place, Cecil, Marina, People's Park", 
@@ -75,7 +78,9 @@ def member_admin(request):
 
     return render(request, 'member/member_admin.html', {'member': member, 'items': items, 
                                                         'num_shares': range(member.share_badge), 
-                                                        'num_donates': range(member.donate_badge)})
+                                                        'num_donates': range(member.donate_badge),
+                                                        'num_posts': posts_num
+                                                        })
 
 @login_required
 def add_item(request):
@@ -149,10 +154,16 @@ def edit_user(request, pk):
 @login_required
 def donation_view(request):
     user = request.user
+
+    return render(request, 'member/donate.html', {'user': user})
+
+@login_required
+def donate_badges(request):
+    user = request.user
     user.donate_badge += 1
     user.save()
 
-    return render(request, 'member/donate.html', {'user': user})
+    return redirect('member/donate.html')
 
 
 

@@ -5,7 +5,6 @@
  {% block content %}
         <div class="columns is-multiline mb-6">
             <div class="column is-12 has-text-centered mt-6 mb-6">
-                <h2 class="is-size-3">Search</h2>
                 <h3 class="is-size-3">Search term: {{ query }}</h3>
             </div>
             {% if items %}
@@ -19,7 +18,7 @@
                             </div>
 
                             <h2  class="subtitle">{{ item.title }}</h2>
-                            <h3 class="likes is-size-6 mb-5" style="text-align:left">
+                            <h2 class="likes is-size-6 mb-2" style="text-align:left">
                                 <button type="submit" name="item_id" value="{{ item.id }}" 
                                 class="btn btn{% if item.total_likes != 0 %}-outline{% endif %}-info p-0 border-0 btn-sm"
                                 data-toggle="tooltip" data-placement="top" title="Like">
@@ -27,8 +26,8 @@
                                     {{ item.total_likes }} 
                                 {% endif %}
                                 <i class="fas fa-thumbs-up"></i>
-                            </button>
-                            <hr>
+                                </button>
+                            </h2>
                             {% if user == item.member %}
                                 <p class="tag is-light">Your Item</p>
                             {% else %}
