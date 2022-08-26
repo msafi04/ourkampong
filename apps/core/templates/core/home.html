@@ -11,7 +11,6 @@
          {% endif %}
       </div>
       {% for item in latest_items %}
-        <!-- <a href="{% url 'item/item_detail.html' item.cat_slug item.slug %}" class="item-link" style="text-decoration: none"> -->
             <div class="column is-3 product-list-item">
                <div class="box">
                   <div class="image" onclick="location.href='{% url 'item/item_detail.html' item.cat_slug item.slug %}';">
@@ -20,7 +19,7 @@
                      </figure>
                   </div>
 
-                  <h2 class="pull-left" style="text-align:left; font-size: 30px; white-space: nowrap;">{{ item.title | capfirst }} 
+                  <h2 class="pull-left" style="text-align:left; font-size: 30px; white-space: nowrap;">{{ item.title | title }} 
                      <sup><span class="badge rounded-pill bg-primary pull-right" style="position: relative; font-size: 10px; top: -7px; left: -1px">{{ item.label }}</span></sup>
                   </h2>
                   {% if item.status %}
@@ -51,7 +50,6 @@
                   {% else %}
                      <p class="tag is-dark">{{ item.member }}</p>
                   {% endif %}
-                  <!-- <a href="{% url 'item/item_detail.html' item.cat_slug item.slug %}" class="btn btn-outline-dark is-capitalized">View</a> -->
                </div>
             </div>
       {% endfor %}

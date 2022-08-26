@@ -3,6 +3,10 @@ from django.contrib.auth.models import AbstractUser
 
 from django.core.exceptions import ValidationError
 
+import sys
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
 from PIL import Image
 
 def exempt_zero(value):
@@ -33,13 +37,40 @@ class Member(AbstractUser):
     profile_pic = models.ImageField(default = 'default_profile.png', upload_to = 'uploads/profile/', null = True, blank = True)
 
     def save(self, *args, **kwargs):
+
+        if self.profile_pic:
+            img = Image.open(self.profile_pic)
+
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+            
+            output = BytesIO()
+
+            #Preserve aspect ratio
+            original_width, orignal_height = img.size
+            aspect_ratio = round(original_width / orignal_height)
+            final_height = 150
+            final_width = aspect_ratio * final_height
+
+            img = img.resize((final_width, final_height))
+
+            img.save(output, format = 'JPEG', quality = 90, save = False)
+            output.seek(0)
+
+            self.profile_pic = InMemoryUploadedFile(output, 'ImageField', f"{self.username}_profile.jpg", 'image/jpeg', sys.getsizeof(output), None)
+
+        super(Member, self).save(*args, **kwargs)
+
+
+
+    '''def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         SIZE = (250, 250)
 
         if self.profile_pic:
             pic = Image.open(self.profile_pic.path)
             pic.thumbnail(SIZE, Image.LANCZOS)
-            pic.save(self.profile_pic.path)
+            pic.save(self.profile_pic.path)'''
     
     def __str__(self):
         return self.username

@@ -61,7 +61,7 @@
                                         <p>
                                             <img src="{{ direct.sender.profile_pic.url }}" width="20" height="20" style="border-radius: 50%" alt="Placeholder image">
                                             <strong>{{ direct.sender.username }}</strong> <small>{{ direct.sender.email }}</small> 
-                                            <small class="text-muted" style="font-size: 10px">{{ direct.date|date:'N d G:i'}}</small>
+                                            <small class="text-muted" style="font-size: 10px">{{ direct.date | timesince }} ago</small>
                                         </p>
                                         <p style="white-space: pre-line; margin-top: -50px;">
                                             {% if 'a href=' in direct.body %}

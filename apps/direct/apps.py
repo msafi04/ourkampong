@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class DirectConfig(AppConfig):
-    name = 'direct'
+    name = 'apps.direct'
